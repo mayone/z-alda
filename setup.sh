@@ -1,13 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Update.
 
 # Variables
+UNAME_S=$(uname -s)
+
+if [ "$UNAME_S" = "Linux" ]; then
+  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/client/linux-amd64/alda"
+  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/player/non-windows/alda-player"
+elif [ "$UNAME_S" = "Darwin" ]; then
+  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/client/darwin-amd64/alda"
+  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/player/non-windows/alda-player"
+fi
+
 ALDA_HOME="./bin"
 ALDA="alda"
 ALDA_PLAYER="alda-player"
-
-export PATH="$PATH:${ALDA_HOME}"
 
 main() {
   install_java
@@ -18,23 +26,31 @@ install_java() {
   # Install OpenJDK
   if ! check_cmd java; then
     info "Installing OpenJDK"
-    brew install --cask adoptopenjdk
+    if [ "$UNAME_S" = "Linux" ]; then
+      sudo apt-get install default-jdk
+    elif [ "$UNAME_S" = "Darwin" ]; then
+      brew install --cask adoptopenjdk
+    fi
   fi
 }
 
 download_alda() {
+  if [[ "$PATH" != *":${ALDA_HOME}"* ]]; then
+    export PATH="$PATH:${ALDA_HOME}"
+  fi
+  
   if ! check_exist "${ALDA_HOME}"; then
     mkdir "${ALDA_HOME}"
   fi
 
   if ! check_exist "${ALDA_HOME}/${ALDA}"; then
     info "Downloading alda"
-    wget https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/client/darwin-amd64/alda -P "${ALDA_HOME}"
+    wget ${ALDA_URL} -P "${ALDA_HOME}"
   fi
 
   if ! check_exist "${ALDA_HOME}/${ALDA_PLAYER}"; then
     info "Downloading alda-player"
-    wget https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/player/non-windows/alda-player -P "${ALDA_HOME}"
+    wget ${ALDA_PLAYER_URL} -P "${ALDA_HOME}"
   fi
 
   chmod +x "${ALDA_HOME}/"{"${ALDA}","${ALDA_PLAYER}"}
