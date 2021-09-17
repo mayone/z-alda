@@ -10,6 +10,13 @@ source ./setup.sh
 
 ---
 
+## Hello World
+```console
+alda play --file examples/hello_world.alda
+```
+
+---
+
 ## References
 - [alda.io](https://alda.io/)
 - [alda-lang/alda GitHub](https://github.com/alda-lang/alda)
