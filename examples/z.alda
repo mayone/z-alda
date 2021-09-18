@@ -1,0 +1,41 @@
+# Mabe Village (from The Legend of Zelda - Link’s Awakening)
+# Reference: https://www.youtube.com/watch?v=YT4mqjy9Aio
+
+(tempo! 94)
+
+quiet  = (vol 25)
+loud   = (vol 50)
+louder = (vol 75)
+
+intro = [
+    >>d <g a4. b16 >c
+    d8 d <g g a4. b16 >c
+    <b8 >d a4. g8 a g
+    d c16 <b a8 r4.. b16 >c d
+
+    e4 <g f+4. a16 >e
+    d8 d <f+ f+ g4. g16 f+
+    e8 g b4. a8 g e-
+    d1
+]
+
+acoustic-guitar:
+    intro
+    r1
+
+midi-tinkle-bell:
+    intro
+    r1
+
+# midi-taiko-drum:
+midi-fx-crystal:
+    g8 >d4 d8 <g8 >e4 e8
+    <g8 >f+4 f+8 <g8 >e4 e8
+    <g8 >d4 d8 <g8 >e-4 e-8
+    <g8 >e4 e8 d/f+ d e d
+
+    c8 g4 g8 c8 a4 a8
+    <b8 >a4 a8 e8 b4 b8
+    <a8 >e4 e8 <a >e- d c
+    d >d <d >d <c >d <c >d
+    <<b >d <b >>d <<a >d <a >>d
