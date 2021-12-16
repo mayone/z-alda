@@ -1,21 +1,27 @@
 #!/bin/bash
 #
-# Update.
+# Setup.
+
+# Use ${BASH_SOURCE[0]} if script is not executed by source, else use $0
+SOURCE="${BASH_SOURCE[0]:-$0}"
+DIR_PATH="$( cd -- "$( dirname -- "$SOURCE" )" >/dev/null 2>&1 && pwd -P )"
+
+source $DIR_PATH/sh_utils/utils.sh
 
 # Variables
-UNAME_S=$(uname -s)
-
-if [ "$UNAME_S" = "Linux" ]; then
-  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/client/linux-amd64/alda"
-  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/player/non-windows/alda-player"
-elif [ "$UNAME_S" = "Darwin" ]; then
-  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/client/darwin-amd64/alda"
-  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/2.0.5/player/non-windows/alda-player"
-fi
-
 ALDA_HOME="./bin"
 ALDA="alda"
 ALDA_PLAYER="alda-player"
+ALDA_VER="2.0.7"
+
+if check_os $OS_MAC; then
+  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/client/darwin-amd64/${ALDA}"
+  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
+  
+elif check_os $OS_LINUX; then
+  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/client/linux-amd64/${ALDA}"
+  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
+fi
 
 main() {
   install_java
@@ -23,14 +29,15 @@ main() {
 }
 
 install_java() {
-  # Install OpenJDK
-  if ! check_cmd java; then
-    info "Installing OpenJDK"
-    if [ "$UNAME_S" = "Linux" ]; then
-      sudo apt-get install default-jdk
-    elif [ "$UNAME_S" = "Darwin" ]; then
-      brew install --cask adoptopenjdk
-    fi
+  if check_cmd java; then
+    return
+  fi
+
+  info "Install OpenJDK"
+  if check_os $OS_MAC; then
+    brew install --cask adoptopenjdk
+  elif check_os $OS_LINUX; then
+    sudo apt-get install default-jdk
   fi
 }
 
@@ -44,46 +51,18 @@ download_alda() {
   fi
 
   if ! check_exist "${ALDA_HOME}/${ALDA}"; then
-    info "Downloading alda"
+    info "Download alda"
     wget ${ALDA_URL} -P "${ALDA_HOME}"
   fi
 
   if ! check_exist "${ALDA_HOME}/${ALDA_PLAYER}"; then
-    info "Downloading alda-player"
+    info "Download alda-player"
     wget ${ALDA_PLAYER_URL} -P "${ALDA_HOME}"
   fi
 
   chmod +x "${ALDA_HOME}/"{"${ALDA}","${ALDA_PLAYER}"}
 
   "${ALDA_HOME}/${ALDA}" update
-}
-
-#
-# Utils
-#
-
-# Colors
-CLEAR='\033[2K'
-NC='\033[0m'
-BLACK='\033[0;30m'
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-MAGENTA='\033[0;35m'
-CYAN='\033[0;36m'
-WHITE='\033[0;37m'
-
-info() {
-  printf "\r  [ ${BLUE}..${NC} ] $1\n"
-}
-
-check_cmd() {
-  command -v "$1" >/dev/null 2>&1
-}
-
-check_exist() {
-  command ls "$1" >/dev/null 2>&1
 }
 
 main "$@"
