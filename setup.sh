@@ -12,7 +12,7 @@ source $DIR_PATH/sh_utils/utils.sh
 ALDA_HOME="./bin"
 ALDA="alda"
 ALDA_PLAYER="alda-player"
-ALDA_VER="2.0.7"
+ALDA_VER="2.2.3"
 
 if check_os $OS_MAC; then
   ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/client/darwin-amd64/${ALDA}"
