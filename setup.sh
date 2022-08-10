@@ -9,18 +9,18 @@ DIR_PATH="$( cd -- "$( dirname -- "$SOURCE" )" >/dev/null 2>&1 && pwd -P )"
 source $DIR_PATH/sh_utils/utils.sh
 
 # Variables
+ALDA_RELEASES_URL="https://alda-releases.nyc3.digitaloceanspaces.com"
 ALDA_HOME="./bin"
 ALDA="alda"
 ALDA_PLAYER="alda-player"
 ALDA_VER="2.2.3"
 
 if check_os $OS_MAC; then
-  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/client/darwin-amd64/${ALDA}"
-  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
-  
+  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/client/darwin-amd64/${ALDA}"
+  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
 elif check_os $OS_LINUX; then
-  ALDA_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/client/linux-amd64/${ALDA}"
-  ALDA_PLAYER_URL="https://alda-releases.nyc3.digitaloceanspaces.com/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
+  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/client/linux-amd64/${ALDA}"
+  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
 fi
 
 main() {
@@ -35,7 +35,7 @@ install_java() {
 
   info "Install OpenJDK"
   if check_os $OS_MAC; then
-    brew install --cask adoptopenjdk
+    brew install --cask temurin
   elif check_os $OS_LINUX; then
     sudo apt-get install default-jdk
   fi
@@ -45,7 +45,7 @@ download_alda() {
   if [[ "$PATH" != *":${ALDA_HOME}"* ]]; then
     export PATH="$PATH:${ALDA_HOME}"
   fi
-  
+
   if ! check_exist "${ALDA_HOME}"; then
     mkdir "${ALDA_HOME}"
   fi
