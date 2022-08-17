@@ -9,11 +9,11 @@ DIR_PATH="$( cd -- "$( dirname -- "$SOURCE" )" >/dev/null 2>&1 && pwd -P )"
 source $DIR_PATH/sh_utils/utils.sh
 
 # Variables
-ALDA_RELEASES_URL="https://alda-releases.nyc3.digitaloceanspaces.com"
-ALDA_HOME="./bin"
-ALDA="alda"
-ALDA_PLAYER="alda-player"
-ALDA_VER="2.2.3"
+ENV=".env"
+# Load environment variables
+if check_exist $ENV; then
+  export $(cat $ENV | xargs)
+fi
 
 if check_os $OS_MAC; then
   ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/client/darwin-amd64/${ALDA}"
