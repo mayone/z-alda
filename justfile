@@ -3,7 +3,7 @@ alias s := setup
 alias t := test
 alias r := run
 
-export PATH := env_var('PATH') + ":" + env_var_or_default('ALDA_HOME', './bin')
+export PATH := env_var('PATH') + ":" + justfile_directory() / env_var_or_default('ALDA_HOME', './bin')
 
 _default:
     @just --list

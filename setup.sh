@@ -42,8 +42,9 @@ install_java() {
 }
 
 download_alda() {
-  if [[ "$PATH" != *":${ALDA_HOME}"* ]]; then
-    export PATH="$PATH:${ALDA_HOME}"
+  ABS_ALDA_HOME="$PWD/${ALDA_HOME}"
+  if [[ "$PATH" != *":${ABS_ALDA_HOME}"* ]]; then
+    export PATH="$PATH:${ABS_ALDA_HOME}"
   fi
 
   if ! check_exist "${ALDA_HOME}"; then
