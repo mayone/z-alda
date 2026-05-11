@@ -2,14 +2,29 @@ set dotenv-load
 alias s := setup
 alias t := test
 alias r := run
+alias u := update
 
-export PATH := env_var('PATH') + ":" + justfile_directory() / env_var_or_default('ALDA_HOME', './bin')
+alda_home := env_var_or_default('ALDA_HOME', './bin')
+alda_bin := justfile_directory() / alda_home / 'alda'
+
+export PATH := env_var('PATH') + ":" + justfile_directory() / alda_home
 
 _default:
     @just --list
 
+# Skip if alda is already installed; use setup-force to reinstall.
 setup:
-    @source ./setup.sh
+    @if [ -x "{{alda_bin}}" ]; then \
+        echo "alda already installed (use 'just setup-force' to reinstall)"; \
+    else \
+        bash ./setup.sh; \
+    fi
+
+setup-force:
+    @bash ./setup.sh
+
+update:
+    @alda update
 
 test: setup
     alda version
