@@ -1,18 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Setup.
+set -euo pipefail
 
 # Use ${BASH_SOURCE[0]} if script is not executed by source, else use $0
 SOURCE="${BASH_SOURCE[0]:-$0}"
 DIR_PATH="$( cd -- "$( dirname -- "$SOURCE" )" >/dev/null 2>&1 && pwd -P )"
 
-source $DIR_PATH/sh_utils/index.sh
+source "$DIR_PATH/sh_utils/index.sh"
 
-# Variables
-ENV=".env"
-# Load environment variables
-if check_exist $ENV; then
-  export $(cat $ENV | xargs)
+# Load environment variables (set -a auto-exports sourced vars)
+ENV_FILE="$DIR_PATH/.env"
+if check_exist "$ENV_FILE"; then
+  set -a
+  # shellcheck disable=SC1090
+  source "$ENV_FILE"
+  set +a
 fi
 
 if check_os $OS_MAC; then
