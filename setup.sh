@@ -56,12 +56,12 @@ download_alda() {
 
   if ! check_exist "${ALDA_HOME}/${ALDA}"; then
     info "Download alda"
-    wget ${ALDA_URL} -P "${ALDA_HOME}"
+    curl -fL --retry 3 -o "${ALDA_HOME}/${ALDA}" "${ALDA_URL}"
   fi
 
   if ! check_exist "${ALDA_HOME}/${ALDA_PLAYER}"; then
     info "Download alda-player"
-    wget ${ALDA_PLAYER_URL} -P "${ALDA_HOME}"
+    curl -fL --retry 3 -o "${ALDA_HOME}/${ALDA_PLAYER}" "${ALDA_PLAYER_URL}"
   fi
 
   chmod +x "${ALDA_HOME}/"{"${ALDA}","${ALDA_PLAYER}"}
