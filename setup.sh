@@ -3,6 +3,9 @@
 # Setup.
 set -euo pipefail
 
+# Bootstrap version used only for first install; `alda update` pulls latest afterwards.
+readonly ALDA_BOOTSTRAP_VER="2.3.1"
+
 # Use ${BASH_SOURCE[0]} if script is not executed by source, else use $0
 SOURCE="${BASH_SOURCE[0]:-$0}"
 DIR_PATH="$( cd -- "$( dirname -- "$SOURCE" )" >/dev/null 2>&1 && pwd -P )"
@@ -19,11 +22,11 @@ if check_exist "$ENV_FILE"; then
 fi
 
 if check_os $OS_MAC; then
-  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/client/darwin-amd64/${ALDA}"
-  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
+  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/darwin-amd64/${ALDA}"
+  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
 elif check_os $OS_LINUX; then
-  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/client/linux-amd64/${ALDA}"
-  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_VER}/player/non-windows/${ALDA_PLAYER}"
+  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/linux-amd64/${ALDA}"
+  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
 fi
 
 main() {
