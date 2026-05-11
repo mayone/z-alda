@@ -58,3 +58,30 @@ check_exist() {
 check_folder() {
   test -d "$1" >/dev/null 2>&1
 }
+
+#######################################
+# Echo a normalized OS name for URL building.
+# Outputs: darwin | linux | windows
+# Exits via err() if the host OS is unsupported.
+#######################################
+detect_os() {
+  case "$UNAME_S" in
+    Darwin) echo "darwin" ;;
+    Linux)  echo "linux"  ;;
+    CYGWIN*|MINGW32*|MINGW*|MSYS*) echo "windows" ;;
+    *) err "Unsupported OS: $UNAME_S" ;;
+  esac
+}
+
+#######################################
+# Echo a normalized CPU arch for URL building.
+# Outputs: amd64 | arm64
+# Exits via err() if the host arch is unsupported.
+#######################################
+detect_arch() {
+  case "$UNAME_M" in
+    arm64|aarch64) echo "arm64" ;;
+    x86_64|amd64)  echo "amd64" ;;
+    *) err "Unsupported arch: $UNAME_M" ;;
+  esac
+}
