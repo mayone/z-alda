@@ -29,6 +29,7 @@ ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/${ALDA_OS}-${ALDA_AR
 ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
 
 main() {
+  preflight_check
   install_java
   download_alda
 }
