@@ -58,15 +58,16 @@ download_alda() {
 
   if ! check_exist "${ALDA_HOME}/${ALDA}"; then
     info "Download alda"
-    curl -fL --retry 3 -o "${ALDA_HOME}/${ALDA}" "${ALDA_URL}"
+    download_file "${ALDA_URL}" "${ALDA_HOME}/${ALDA}"
   fi
 
   if ! check_exist "${ALDA_HOME}/${ALDA_PLAYER}"; then
     info "Download alda-player"
-    curl -fL --retry 3 -o "${ALDA_HOME}/${ALDA_PLAYER}" "${ALDA_PLAYER_URL}"
+    download_file "${ALDA_PLAYER_URL}" "${ALDA_HOME}/${ALDA_PLAYER}"
   fi
 
-  chmod +x "${ALDA_HOME}/"{"${ALDA}","${ALDA_PLAYER}"}
+  chmod +x "${ALDA_HOME}/${ALDA}"
+  chmod +x "${ALDA_HOME}/${ALDA_PLAYER}"
 
   "${ALDA_HOME}/${ALDA}" update
 }
