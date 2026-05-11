@@ -20,6 +20,8 @@ preflight_check() {
       missing+=("brew (needed to install java on macOS)")
     elif check_os "$OS_LINUX" && ! check_cmd apt-get; then
       missing+=("apt-get (needed to install java on Linux)")
+    elif check_os "$OS_WINDOWS"; then
+      missing+=("java (please install Temurin/OpenJDK manually on Windows)")
     fi
   fi
 

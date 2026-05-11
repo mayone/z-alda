@@ -25,8 +25,16 @@ fi
 : "${ALDA_OS:=$(detect_os)}"
 : "${ALDA_ARCH:=$(detect_arch)}"
 
-ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/${ALDA_OS}-${ALDA_ARCH}/${ALDA}"
-ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
+# Windows uses a different CDN layout and .exe-suffixed binaries.
+if [ "$ALDA_OS" = "windows" ]; then
+  ALDA="${ALDA}.exe"
+  ALDA_PLAYER="${ALDA_PLAYER}.exe"
+  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/windows-amd64/${ALDA}"
+  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/windows/${ALDA_PLAYER}"
+else
+  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/${ALDA_OS}-${ALDA_ARCH}/${ALDA}"
+  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
+fi
 
 main() {
   preflight_check
@@ -44,6 +52,8 @@ install_java() {
     brew install --cask temurin
   elif check_os $OS_LINUX; then
     sudo apt-get install default-jdk
+  else
+    err "Please install Java (Temurin/OpenJDK) manually, then re-run setup."
   fi
 }
 
@@ -67,8 +77,11 @@ download_alda() {
     download_file "${ALDA_PLAYER_URL}" "${ALDA_HOME}/${ALDA_PLAYER}"
   fi
 
-  chmod +x "${ALDA_HOME}/${ALDA}"
-  chmod +x "${ALDA_HOME}/${ALDA_PLAYER}"
+  # chmod is a no-op for .exe binaries on Windows filesystems.
+  if [ "$ALDA_OS" != "windows" ]; then
+    chmod +x "${ALDA_HOME}/${ALDA}"
+    chmod +x "${ALDA_HOME}/${ALDA_PLAYER}"
+  fi
 
   "${ALDA_HOME}/${ALDA}" update
 }
