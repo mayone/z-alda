@@ -21,13 +21,12 @@ if check_exist "$ENV_FILE"; then
   set +a
 fi
 
-if check_os $OS_MAC; then
-  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/darwin-amd64/${ALDA}"
-  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
-elif check_os $OS_LINUX; then
-  ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/linux-amd64/${ALDA}"
-  ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
-fi
+# Platform detection (override via ALDA_OS / ALDA_ARCH in .env if needed).
+: "${ALDA_OS:=$(detect_os)}"
+: "${ALDA_ARCH:=$(detect_arch)}"
+
+ALDA_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/client/${ALDA_OS}-${ALDA_ARCH}/${ALDA}"
+ALDA_PLAYER_URL="${ALDA_RELEASES_URL}/${ALDA_BOOTSTRAP_VER}/player/non-windows/${ALDA_PLAYER}"
 
 main() {
   install_java
