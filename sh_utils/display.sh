@@ -28,5 +28,5 @@ warn() {
 
 err() {
   printf "\r${CLEAR}  [ ${RED}ERR${NC} ] $1\n"
-  exit
+  exit 1
 }
