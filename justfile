@@ -26,9 +26,6 @@ setup-force:
 update:
     @alda update
 
-soundfont:
-    @bash ./scripts/install-soundfont.sh
-
 test: setup
     alda version
     alda doctor
