@@ -35,7 +35,6 @@ just t
 | `just update` | `just u` | Run `alda update` to fetch the latest version |
 | `just test` | `just t` | Run `alda version` / `doctor` / a quick trumpet sample |
 | `just run <FILE>` | `just r <FILE>` | Play an Alda file |
-| `just soundfont` |  | Install a FluidR3-style soundfont for better MIDI playback |
 
 Examples:
 
@@ -76,7 +75,6 @@ alda play --file examples/hello_world.alda
 
 - **Apple Silicon**: the script downloads the native `darwin-arm64` build. If you hit issues, set `ALDA_ARCH="amd64"` in `.env` to use the Intel build via Rosetta.
 - **`alda doctor`**: run after setup to verify everything (Java, player, soundfont).
-- **Bad audio quality**: run `just soundfont` to install a proper soundfont.
 - **Windows**: install Java manually (Temurin recommended), then `bash ./setup.sh` from Git Bash or WSL.
 
 ---
@@ -86,5 +84,4 @@ alda play --file examples/hello_world.alda
 - [alda.io](https://alda.io/)
 - [alda-lang/alda](https://github.com/alda-lang/alda)
   - [List of Instruments](https://github.com/alda-lang/alda/blob/master/doc/list-of-instruments.md)
-  - [Installing a good soundfont](https://github.com/alda-lang/alda/blob/master/doc/installing-a-good-soundfont.md)
   - [Editor Plugins](https://github.com/alda-lang/alda/blob/master/doc/editor-plugins.md)
