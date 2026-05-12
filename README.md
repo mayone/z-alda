@@ -28,13 +28,13 @@ just t
 
 ## Just targets
 
-| Target | Alias | Description |
-|---|---|---|
-| `just setup` | `just s` | Install Alda (skips if already installed) |
-| `just setup-force` |  | Reinstall Alda from scratch |
-| `just update` | `just u` | Run `alda update` to fetch the latest version |
-| `just test` | `just t` | Run `alda version` / `doctor` / a quick trumpet sample |
-| `just run <FILE>` | `just r <FILE>` | Play an Alda file |
+| Target             | Alias           | Description                                            |
+| ------------------ | --------------- | ------------------------------------------------------ |
+| `just setup`       | `just s`        | Install Alda (skips if already installed)              |
+| `just setup-force` |                 | Reinstall Alda from scratch                            |
+| `just update`      | `just u`        | Run `alda update` to fetch the latest version          |
+| `just test`        | `just t`        | Run `alda version` / `doctor` / a quick trumpet sample |
+| `just run <FILE>`  | `just r <FILE>` | Play an Alda file                                      |
 
 Examples:
 
@@ -49,13 +49,13 @@ just r examples/z.alda
 
 All knobs live in `.env` (copy from `.env.example`):
 
-| Key | Purpose |
-|---|---|
-| `ALDA_HOME` | Where the binaries are installed (defaults to `./bin`) |
-| `ALDA_RELEASES_URL` | Alda CDN base URL |
-| `ALDA`, `ALDA_PLAYER` | Binary names |
-| `ALDA_OS` | Override auto-detected OS (`darwin` / `linux` / `windows`) |
-| `ALDA_ARCH` | Override auto-detected arch (`amd64` / `arm64`) |
+| Key                   | Purpose                                                    |
+| --------------------- | ---------------------------------------------------------- |
+| `ALDA_HOME`           | Where the binaries are installed (defaults to `./bin`)     |
+| `ALDA_RELEASES_URL`   | Alda CDN base URL                                          |
+| `ALDA`, `ALDA_PLAYER` | Binary names                                               |
+| `ALDA_OS`             | Override auto-detected OS (`darwin` / `linux` / `windows`) |
+| `ALDA_ARCH`           | Override auto-detected arch (`amd64` / `arm64`)            |
 
 The platform overrides are only needed when you want to force a non-native build (e.g. running amd64 under Rosetta on Apple Silicon).
 
