@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Index file.
 
@@ -6,7 +6,7 @@
 SOURCE="${BASH_SOURCE[0]:-$0}"
 DIR_PATH="$( cd -- "$( dirname -- "$SOURCE" )" >/dev/null 2>&1 && pwd -P )"
 
-source "$DIR_PATH/display.sh"
 source "$DIR_PATH/check.sh"
+source "$DIR_PATH/display.sh"
 source "$DIR_PATH/download.sh"
 source "$DIR_PATH/preflight.sh"
